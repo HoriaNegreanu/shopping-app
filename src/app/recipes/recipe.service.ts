@@ -8,10 +8,12 @@ import { Subject } from "rxjs";
 export class RecipeService {
     recipesChanged = new Subject<Recipe[]>();
 
-    private recipes: Recipe[] = [
-        new Recipe('Schnitzel', 'Tasty Schnitzel', 'http://www.cheap-chef.com/wp-content/uploads/2015/04/bakedspaghetti1-610x406.jpg', [new Ingredient('Meat', 1), new Ingredient('French Fries', 20)]),
-        new Recipe('Burger', 'Huge burger', 'http://www.cheap-chef.com/wp-content/uploads/2015/04/bakedspaghetti1-610x406.jpg', [new Ingredient('Buns', 2), new Ingredient('Meat', 1)])
-    ];
+    // private recipes: Recipe[] = [
+    //     new Recipe('Schnitzel', 'Tasty Schnitzel', 'http://www.cheap-chef.com/wp-content/uploads/2015/04/bakedspaghetti1-610x406.jpg', [new Ingredient('Meat', 1), new Ingredient('French Fries', 20)]),
+    //     new Recipe('Burger', 'Huge burger', 'http://www.cheap-chef.com/wp-content/uploads/2015/04/bakedspaghetti1-610x406.jpg', [new Ingredient('Buns', 2), new Ingredient('Meat', 1)])
+    // ];
+
+    private recipes: Recipe[] = [];
 
     constructor(private slService: ShoppingListService) { }
 
@@ -39,6 +41,11 @@ export class RecipeService {
 
     deleteRecipe(index: number) {
         this.recipes.splice(index, 1);
+        this.recipesChanged.next(this.recipes.slice());
+    }
+
+    setRecipes(recipes: Recipe[]){
+        this.recipes = recipes;
         this.recipesChanged.next(this.recipes.slice());
     }
 }
